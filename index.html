@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>郑鑫杨 | 设计作品集</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      background: #0a0a0a;
+      color: #eaeaea;
+      font-family: 'SF Pro Display', system-ui, sans-serif;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: 0.12;
+    }
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem 5vw;
+      z-index: 99;
+      background: linear-gradient(to bottom, #0a0a0a 60%, transparent);
+    }
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14vw 5vw 10vw;
+      position: relative;
+      z-index: 1;
+    }
+    .project-card {
+      opacity: 0;
+      transform: translateY(50px);
+      cursor: pointer;
+    }
+    .project-card:hover img {
+      transform: scale(1.03);
+      filter: brightness(1.1);
+    }
+    .project-card img {
+      transition: all 0.5s ease;
+    }
+  </style>
+</head>
+
+<body>
+<div id="canvas-container"></div>
+<div class="nav">
+  <div class="text-xl font-bold tracking-wide">ZHENG XINYANG</div>
+</div>
+
+<div class="content">
+  <section class="hero mb-32">
+    <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-8 opacity-0">
+      郑鑫杨<br/>设计作品集
+    </h1>
+    <p class="text-xl text-gray-400 max-w-2xl opacity-0">
+      空间设计 · 展陈策划 · 用户体验 · 数字媒体<br>
+      深圳大学设计学硕士 | 环境设计方向
+    </p>
+  </section>
+
+  <section class="projects space-y-32">
+    <div class="project-card">
+      <div class="rounded-xl overflow-hidden mb-5 shadow-2xl">
+        <img src="https://picsum.photos/1200/650?random=10" alt="大明航海家" class="w-full h-auto">
+      </div>
+      <h2 class="text-3xl md:text-4xl font-semibold mb-2">大明航海家 · 海洋文化科普桌游</h2>
+      <p class="text-gray-400 text-lg">用户体验研究 / 视觉设计 / 交互规则设计</p>
+    </div>
+
+    <div class="project-card">
+      <div class="rounded-xl overflow-hidden mb-5 shadow-2xl">
+        <img src="https://picsum.photos/1200/650?random=11" alt="深圳之眼" class="w-full h-auto">
+      </div>
+      <h2 class="text-3xl md:text-4xl font-semibold mb-2">深圳之眼 · 海洋文化展</h2>
+      <p class="text-gray-400 text-lg">展陈空间设计 / 活动策划 / 视觉系统</p>
+    </div>
+
+    <div class="project-card">
+      <div class="rounded-xl overflow-hidden mb-5 shadow-2xl">
+        <img src="https://picsum.photos/1200/650?random=12" alt="汉瑶文化中心" class="w-full h-auto">
+      </div>
+      <h2 class="text-3xl md:text-4xl font-semibold mb-2">汉瑶文化中心交互空间</h2>
+      <p class="text-gray-400 text-lg">环境设计 / 数字媒体交互 / 体验设计</p>
+    </div>
+
+    <div class="project-card">
+      <div class="rounded-xl overflow-hidden mb-5 shadow-2xl">
+        <img src="https://picsum.photos/1200/650?random=13" alt="景观设计" class="w-full h-auto">
+      </div>
+      <h2 class="text-3xl md:text-4xl font-semibold mb-2">现代景观设计与空间渲染</h2>
+      <p class="text-gray-400 text-lg">SU建模 / D5渲染 / 景观空间方案</p>
+    </div>
+  </section>
+
+  <footer class="mt-32 pt-16 border-t border-gray-800 text-center text-gray-500">
+    <p class="mb-2">© 2025 郑鑫杨 | 设计作品集</p>
+    <div class="flex justify-center gap-5 mt-4 text-xl">
+      <i class="fa-brands fa-weixin"></i>
+      <i class="fa-brands fa-instagram"></i>
+      <i class="fa-brands fa-behance"></i>
+    </div>
+  </footer>
+</div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+const geometry = new THREE.IcosahedronGeometry(2.5, 1);
+const material = new THREE.MeshBasicMaterial({ color: 0x4a8fff, wireframe: true });
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+camera.position.z = 7;
+
+function animate() {
+  requestAnimationFrame(animate);
+  mesh.rotation.x += 0.0025;
+  mesh.rotation.y += 0.0045;
+  renderer.render(scene, camera);
+}
+animate();
+
+gsap.to('.hero h1', { opacity:1, y:0, duration:1.2, delay:0.3 });
+gsap.to('.hero p', { opacity:1, y:0, duration:1.2, delay:0.6 });
+
+gsap.utils.toArray('.project-card').forEach((el,i)=>{
+  gsap.to(el, {
+    opacity:1, y:0, duration:1,
+    scrollTrigger: { trigger: el, start:"top 75%" }
+  })
+})
+
+window.addEventListener('resize', ()=>{
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+})
+</script>
+</body>
+</html>
